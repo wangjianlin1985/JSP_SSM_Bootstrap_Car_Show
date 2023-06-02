@@ -1,0 +1,48 @@
+﻿<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace命名空间，为了对sql语句进行隔离，方便管理，mapper开发dao方式，使用namespace有特殊作用  
+mapper代理开发时将namespace指定为mapper接口的全限定名  
+ -->
+<mapper namespace="com.chengxusheji.mapper.InfoTypeMapper"> 
+<!--在mapper.xml文件中配置很多的sql语句，执行每个sql语句时，封装为MappedStatement对象 
+mapper.xml以statement为单位管理sql语句  
+ -->
+	<!-- 添加信息类别记录 -->
+	<insert id="addInfoType" parameterType="infoType">
+		insert into t_infoType(typeName) values 
+		(#{typeName})
+	</insert>
+
+	<!-- 按照查询条件分页查询信息类别记录 -->
+	<select id="queryInfoType" resultMap="infoTypeMap" >
+		select t_infoType.* from t_infoType ${where} limit #{startIndex},#{pageSize}
+	</select>
+	<resultMap id="infoTypeMap" type="infoType">
+        <id property="typeId" column="typeId" />
+    </resultMap>
+
+    <!-- 按照查询条件查询所有信息类别记录 -->
+	<select id="queryInfoTypeList" resultMap="infoTypeMap" >
+		select t_infoType.* from t_infoType ${where}
+	</select>
+
+    <!-- 按照查询条件的信息类别记录数 -->
+	<select id="queryInfoTypeCount" resultType="int">
+		select count(*) from t_infoType ${where}
+	</select>
+
+	<!-- 根据主键查询某个信息类别记录 -->
+	<select id="getInfoType" parameterType="int" resultMap="infoTypeMap">
+		select * from t_infoType where t_infoType.typeId = #{typeId}
+	</select>
+
+	<!-- 更新信息类别记录 -->
+	<update id="updateInfoType" parameterType="infoType">
+		update t_infoType set typeName=#{typeName} where typeId = #{typeId}
+	</update>
+
+	<!-- 删除信息类别记录 -->
+	<delete id="deleteInfoType" parameterType="int">
+		delete from t_infoType where typeId=#{typeId}
+	</delete>
+
+</mapper>
